@@ -4,7 +4,8 @@ import sitemap from '@astrojs/sitemap';
 import mdx from '@astrojs/mdx';
 
 export default defineConfig({
-  site: 'https://wanderlustwendy.com',
+  site: 'https://xavier-xvi.github.io',
+  base: '/wanderlustwendycopy',
   integrations: [
     tailwind(),
     sitemap({
