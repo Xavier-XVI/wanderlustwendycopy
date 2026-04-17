@@ -4,5 +4,6 @@ dist/
 .env
 .env.*
 *.log
+*.md
 .DS_Store
 Thumbs.db
