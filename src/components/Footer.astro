@@ -1,0 +1,45 @@
+---
+// Footer.astro — Simple site footer
+// Warm card background, copyright, nav links, brand note
+---
+
+<footer class="w-full bg-[#f5f0eb] border-t border-[#e8e0d8] mt-16 py-10 px-4">
+  <div class="max-w-5xl mx-auto">
+
+    <!-- Top row: nav links -->
+    <nav aria-label="Footer navigation">
+      <ul class="flex flex-wrap justify-center gap-x-6 gap-y-2 list-none m-0 p-0 mb-6" role="list">
+        {[
+          { label: 'Home', href: '/' },
+          { label: 'Destinations', href: '/destinations' },
+          { label: 'Bucket List', href: '/bucket-list' },
+          { label: 'Living Abroad', href: '/living-abroad' },
+          { label: 'Contact', href: '/contact' },
+        ].map(({ label, href }) => (
+          <li>
+            <a
+              href={href}
+              class="font-sans text-[14px] text-[#2e2b2b] no-underline hover:text-[#b72e09] transition-colors duration-150"
+            >
+              {label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+
+    <!-- Divider -->
+    <div class="border-t border-[#ddd5cb] mb-6"></div>
+
+    <!-- Bottom row: copyright + brand note -->
+    <div class="flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left">
+      <p class="font-sans text-[14px] text-[#555] m-0">
+        &copy; {new Date().getFullYear()} Wanderlust Wendy. All rights reserved.
+      </p>
+      <p class="font-sans text-[14px] text-[#b72e09] font-medium m-0">
+        No sponsored content. Ever.
+      </p>
+    </div>
+
+  </div>
+</footer>

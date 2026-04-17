@@ -1,0 +1,156 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Self-hosted fonts */
+@font-face {
+  font-family: 'Inria Serif';
+  src: url('/fonts/Inria_Serif/InriaSerif-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Inria Serif';
+  src: url('/fonts/Inria_Serif/InriaSerif-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Inria Serif';
+  src: url('/fonts/Inria_Serif/InriaSerif-Italic.ttf') format('truetype');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Inria Serif';
+  src: url('/fonts/Inria_Serif/InriaSerif-BoldItalic.ttf') format('truetype');
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Cabin';
+  src: url('/fonts/Cabin/static/Cabin-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Cabin';
+  src: url('/fonts/Cabin/static/Cabin-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Cabin';
+  src: url('/fonts/Cabin/static/Cabin-SemiBold.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Cabin';
+  src: url('/fonts/Cabin/static/Cabin-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* CSS custom properties */
+:root {
+  --color-bg: #ffffff;
+  --color-text: #141313;
+  --color-heading: #1f1d1d;
+  --color-card: #f5f0eb;
+  --color-accent: #b72e09;
+  --color-accent-soft: #c48f8f;
+  --color-nav: #2e2b2b;
+}
+
+/* Base styles */
+@layer base {
+  html {
+    font-family: 'Cabin', system-ui, sans-serif;
+    color: var(--color-text);
+    background-color: var(--color-bg);
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Inria Serif', Georgia, serif;
+    color: var(--color-heading);
+  }
+
+  a {
+    color: var(--color-accent);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  a:hover {
+    color: var(--color-accent);
+    opacity: 0.8;
+  }
+}
+
+/* Prose styles for blog post body content */
+@layer components {
+  .prose-wendy {
+    @apply max-w-2xl mx-auto;
+    font-size: 18px;
+    line-height: 1.6;
+  }
+
+  .prose-wendy h2 {
+    font-size: 36px;
+    font-weight: 700;
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .prose-wendy h3 {
+    font-size: 24px;
+    font-weight: 600;
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .prose-wendy p {
+    margin-bottom: 1.5rem;
+  }
+
+  .prose-wendy ul,
+  .prose-wendy ol {
+    margin-bottom: 1.5rem;
+    padding-left: 1.5rem;
+  }
+
+  .prose-wendy li {
+    margin-bottom: 0.5rem;
+  }
+
+  .prose-wendy blockquote {
+    border-left: 3px solid var(--color-accent-soft);
+    padding-left: 1.25rem;
+    font-style: italic;
+    color: #555;
+    margin: 2rem 0;
+  }
+
+  .prose-wendy img {
+    width: 100%;
+    height: auto;
+    border-radius: 4px;
+    margin: 2rem 0;
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install:*)",
+      "Bash(mkdir -p \"/Users/xaviervincent/Documents/Claude/Projects/sites creation/wanderlustwendy.com/public/fonts\")",
+      "Bash(npx astro:*)",
+      "Bash(python3 -c \"import sys,json; d=json.load\\(sys.stdin\\); print\\(d['version']\\)\")",
+      "mcp__Claude_Preview__preview_start",
+      "WebFetch(domain:wanderlustwendy.com)",
+      "Bash(gh auth *)",
+      "Bash(git --version)",
+      "Bash(ssh -T git@github.com)",
+      "Bash(brew install *)"
+    ]
+  }
+}

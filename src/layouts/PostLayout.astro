@@ -1,0 +1,119 @@
+---
+// PostLayout.astro — Blog post template, extends BaseLayout
+// Accepts all blog frontmatter as props
+
+import BaseLayout from './BaseLayout.astro';
+
+interface Props {
+  title: string;
+  date: string;              // ISO date string: "2024-11-01"
+  category: string;
+  excerpt?: string;
+  heroImage?: string;        // path from /public, e.g. "/images/post-slug--hero.jpg"
+  heroImageAlt?: string;
+  slug?: string;             // used to build currentPath for nav active state
+}
+
+const {
+  title,
+  date,
+  category,
+  excerpt = '',
+  heroImage,
+  heroImageAlt = '',
+  slug = '',
+} = Astro.props;
+
+const currentPath = slug ? `/blog/${slug}` : '/blog';
+
+const formattedDate = new Date(date + 'T00:00:00').toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+---
+
+<BaseLayout
+  title={title}
+  description={excerpt}
+  currentPath={currentPath}
+  ogImage={heroImage || '/images/og-default.jpg'}
+  ogType="article"
+>
+
+  <article class="max-w-2xl mx-auto">
+
+    <!-- Back link -->
+    <div class="mb-8">
+      <a
+        href="/"
+        class="font-sans text-[14px] text-[#2e2b2b] no-underline hover:text-[#b72e09] transition-colors duration-150 inline-flex items-center gap-1"
+      >
+        <span aria-hidden="true">&larr;</span> Back to home
+      </a>
+    </div>
+
+    <!-- Category + date meta line -->
+    <div class="flex items-center gap-3 mb-5">
+      <span class="font-sans text-[13px] font-semibold uppercase tracking-wider text-[#b72e09] bg-[#f5f0eb] px-2 py-0.5 rounded-sm">
+        {category}
+      </span>
+      <time
+        datetime={date}
+        class="font-sans text-[14px] text-[#555]"
+      >
+        {formattedDate}
+      </time>
+    </div>
+
+    <!-- Post title -->
+    <h1 class="font-serif font-bold text-[#1f1d1d] text-[2.25rem] md:text-[3.625rem] leading-[1.15] mb-6 mt-0">
+      {title}
+    </h1>
+
+    <!-- Excerpt / lede -->
+    {excerpt && (
+      <p class="font-sans text-[19px] text-[#3a3636] leading-relaxed mb-8 border-l-2 border-[#c48f8f] pl-4 italic">
+        {excerpt}
+      </p>
+    )}
+
+    <!-- Hero image -->
+    {heroImage && (
+      <figure class="mb-10 mx-0">
+        <img
+          src={heroImage}
+          alt={heroImageAlt}
+          class="w-full h-auto rounded-sm object-cover"
+          loading="eager"
+          decoding="async"
+        />
+        {heroImageAlt && (
+          <figcaption class="font-sans text-[13px] text-[#777] mt-2 text-center italic">
+            {heroImageAlt}
+          </figcaption>
+        )}
+      </figure>
+    )}
+
+    <!-- Post body -->
+    <div class="prose-wendy">
+      <slot />
+    </div>
+
+    <!-- Post footer -->
+    <div class="mt-16 pt-8 border-t border-gray-200">
+      <p class="font-sans text-[14px] text-[#555] mb-4">
+        Filed under <strong class="text-[#b72e09]">{category}</strong>
+      </p>
+      <a
+        href="/"
+        class="font-sans text-[14px] text-[#2e2b2b] no-underline hover:text-[#b72e09] transition-colors duration-150 inline-flex items-center gap-1"
+      >
+        <span aria-hidden="true">&larr;</span> Back to home
+      </a>
+    </div>
+
+  </article>
+
+</BaseLayout>

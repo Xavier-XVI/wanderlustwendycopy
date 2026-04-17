@@ -1,0 +1,122 @@
+---
+// Nav.astro — Horizontal navigation with active link highlighting and mobile support
+// Props:
+//   currentPath: string — current URL pathname, used to highlight active link
+
+interface Props {
+  currentPath?: string;
+}
+
+const { currentPath = '/' } = Astro.props;
+
+const navLinks = [
+  { label: 'Home', href: '/' },
+  { label: 'Destinations', href: '/destinations' },
+  { label: 'Bucket List', href: '/bucket-list' },
+  { label: 'Living Abroad', href: '/living-abroad' },
+  { label: 'Contact', href: '/contact' },
+];
+
+// Determine active link: exact match for home, startsWith for others
+function isActive(href: string): boolean {
+  if (href === '/') return currentPath === '/';
+  return currentPath.startsWith(href);
+}
+---
+
+<nav class="w-full bg-white border-b border-gray-100" aria-label="Main navigation">
+  <div class="max-w-5xl mx-auto px-4">
+
+    <!-- Desktop nav -->
+    <ul class="hidden md:flex items-center justify-center gap-8 py-3 list-none m-0 p-0" role="list">
+      {navLinks.map(({ label, href }) => (
+        <li>
+          <a
+            href={href}
+            class:list={[
+              'font-sans text-[15px] font-medium text-[#2e2b2b] no-underline pb-1 transition-colors duration-150',
+              isActive(href)
+                ? 'border-b-2 border-[#b72e09] text-[#b72e09]'
+                : 'border-b-2 border-transparent hover:text-[#b72e09] hover:border-[#b72e09]',
+            ]}
+            aria-current={isActive(href) ? 'page' : undefined}
+          >
+            {label}
+          </a>
+        </li>
+      ))}
+    </ul>
+
+    <!-- Mobile nav: hamburger toggle -->
+    <div class="md:hidden flex items-center justify-between py-3">
+      <span class="font-sans text-[14px] text-[#2e2b2b] uppercase tracking-wide">Menu</span>
+      <button
+        id="mobile-menu-toggle"
+        class="flex flex-col gap-[5px] w-7 h-7 justify-center items-end cursor-pointer bg-transparent border-none p-0"
+        aria-expanded="false"
+        aria-controls="mobile-menu"
+        aria-label="Toggle navigation menu"
+      >
+        <span class="block w-6 h-[2px] bg-[#2e2b2b] transition-all duration-200 origin-center" id="bar1"></span>
+        <span class="block w-5 h-[2px] bg-[#2e2b2b] transition-all duration-200" id="bar2"></span>
+        <span class="block w-6 h-[2px] bg-[#2e2b2b] transition-all duration-200 origin-center" id="bar3"></span>
+      </button>
+    </div>
+
+    <!-- Mobile menu (hidden by default) -->
+    <ul
+      id="mobile-menu"
+      class="md:hidden hidden flex-col gap-0 list-none m-0 p-0 border-t border-gray-100"
+      role="list"
+      aria-label="Mobile navigation"
+    >
+      {navLinks.map(({ label, href }) => (
+        <li class="border-b border-gray-100 last:border-b-0">
+          <a
+            href={href}
+            class:list={[
+              'block font-sans text-[15px] font-medium py-3 px-2 no-underline transition-colors duration-150',
+              isActive(href)
+                ? 'text-[#b72e09]'
+                : 'text-[#2e2b2b] hover:text-[#b72e09]',
+            ]}
+            aria-current={isActive(href) ? 'page' : undefined}
+          >
+            {label}
+          </a>
+        </li>
+      ))}
+    </ul>
+
+  </div>
+</nav>
+
+<script>
+  const toggle = document.getElementById('mobile-menu-toggle');
+  const menu = document.getElementById('mobile-menu');
+  const bar1 = document.getElementById('bar1');
+  const bar2 = document.getElementById('bar2');
+  const bar3 = document.getElementById('bar3');
+
+  if (toggle && menu) {
+    toggle.addEventListener('click', () => {
+      const isOpen = menu.classList.contains('flex');
+
+      if (isOpen) {
+        menu.classList.remove('flex');
+        menu.classList.add('hidden');
+        toggle.setAttribute('aria-expanded', 'false');
+        if (bar1) bar1.style.transform = '';
+        if (bar2) bar2.style.opacity = '';
+        if (bar3) bar3.style.transform = '';
+      } else {
+        menu.classList.remove('hidden');
+        menu.classList.add('flex');
+        toggle.setAttribute('aria-expanded', 'true');
+        if (bar1) bar1.style.transform = 'translateY(7px) rotate(45deg)';
+        if (bar2) bar2.style.opacity = '0';
+        if (bar3) bar3.style.transform = 'translateY(-7px) rotate(-45deg)';
+      }
+    });
+  }
+</script>

@@ -1,0 +1,278 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PostCard from '../components/PostCard.astro';
+
+const allPosts = await getCollection('blog');
+const bucketListPosts = allPosts
+  .filter((p) => p.data.category === 'Bucket List')
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+const lifeExperiences = {
+  done: [
+    'Learn to paint (December 2014)',
+    'Run a half marathon — Inner Mongolia (July 2016)',
+    'Go on yoga retreat — Kerala, India (September 2016)',
+    'Learn to code and build an app — Le Wagon bootcamp (April 2018)',
+    'Work on organic farm — Uruguay via Workaway (February 2019)',
+    'Experience Float Spa (May 2019)',
+    'Get paid to write (October 2019)',
+    'Make pottery — St. Louis class (February 2020)',
+  ],
+  pending: [
+    'Live on six continents (still needs South America & Australia)',
+    'Speak six languages (has Mandarin, English, French, Taiwanese Hokkien, basic Vietnamese)',
+    'Learn violin',
+    'Learn cello',
+    'Play in orchestra',
+    'Work as apprentice in bakery',
+    'Learn to make macarons',
+    'Try 100 recipes',
+    'Become a mother',
+    'Own a café and build community',
+    'Take photography classes',
+    'Become professional photographer',
+    'Generate income from blog',
+    'Write a book',
+    'Live location-independent lifestyle',
+    'Pick fruit in Australia',
+    'Work on coffee farm',
+    'Produce 50% of vegetable consumption from home garden',
+    'Learn serious tennis',
+    'Learn graphic design',
+    'Attend TravelCon',
+    'Attend FinCon',
+    'Design and build home',
+    'Read 1,000 books (currently 123 on Goodreads)',
+    'Learn data science for social sector',
+    'Teach at university',
+    'Complete vipassana silent meditation retreat',
+  ],
+};
+
+const travelExperiences = {
+  done: [
+    'Central Park carriage ride (August 2012)',
+    'California wine country road trip (August 2014)',
+    'See live panda — Chengdu (September 2014)',
+    'Sleep in Mongolian yurt (July 2016)',
+    'Climb Great Wall of China (May 2018)',
+    'Year-long around-the-world trip — 20 countries on $53/day (June 2018–February 2019)',
+    'Ride Trans-Siberian Rail (July 2018)',
+    'See penguins in Argentina (December 2018)',
+  ],
+  pending: [
+    'Go sailing',
+    'Live in Paris working at café',
+    'Ride hot air balloon',
+    'Ski in the Alps',
+    'Attend Olympic Games',
+    'Swim with dolphins',
+    'Visit pyramids in Sudan',
+    'Experience camel desert encounter in Egypt',
+    'Go on safari',
+    'Live van life',
+    'Stay in treehouse',
+  ],
+};
+
+const countriesVisited = [
+  'Taiwan', 'United States', 'France', 'Belgium', 'United Kingdom', 'Ireland',
+  'Austria', 'Italy', 'Germany', 'Cameroon', 'Canada', 'Tunisia', 'Spain',
+  'Monaco', 'Honduras', 'Curaçao', 'China', 'Philippines', 'Hong Kong',
+  'Ethiopia', 'South Korea', 'Greece', 'Hungary', 'Thailand', 'Ecuador',
+  'India', 'Vietnam', 'Cambodia', 'Mexico', 'Singapore', 'Myanmar', 'Mongolia',
+  'Russia', 'Ukraine', 'Poland', 'Luxembourg', 'Argentina', 'Uruguay', 'Chile',
+  'Haiti', 'Jamaica', 'Switzerland',
+];
+---
+
+<BaseLayout
+  title="Bucket List"
+  description="Life experiences, travel goals, countries visited — the running list of everything I want to do, see, and become."
+  currentPath="/bucket-list"
+>
+
+  <div class="max-w-3xl mx-auto mb-14">
+    <h1 class="font-serif font-bold text-[#1f1d1d] text-[2.25rem] md:text-[3rem] leading-[1.15] mb-4 mt-0">
+      Bucket List
+    </h1>
+    <p class="font-sans text-[18px] text-[#3a3636] leading-[1.6] m-0">
+      Not a polished aspirational list. More like a running conversation I have with myself
+      about what I still want to see, do, and become before I run out of time.
+    </p>
+    <p class="font-sans text-[13px] text-[#aaa] mt-3 m-0">Last updated: April 2026</p>
+  </div>
+
+  <div class="max-w-3xl mx-auto space-y-16">
+
+    <!-- Life Experiences -->
+    <section>
+      <h2 class="font-serif font-bold text-[#1f1d1d] text-[1.75rem] mb-6 mt-0 pb-3 border-b border-gray-100">
+        Life Experiences
+      </h2>
+      <ul class="list-none m-0 p-0 space-y-3">
+        {lifeExperiences.done.map((item) => (
+          <li class="flex items-start gap-3 font-sans text-[16px] leading-[1.6]">
+            <span class="mt-0.5 flex-shrink-0 w-5 h-5 rounded-sm bg-[#b72e09] border-[#b72e09] border flex items-center justify-center text-[11px] text-white" aria-hidden="true">✓</span>
+            <span class="line-through text-[#999]">{item}</span>
+          </li>
+        ))}
+        {lifeExperiences.pending.map((item) => (
+          <li class="flex items-start gap-3 font-sans text-[16px] leading-[1.6]">
+            <span class="mt-0.5 flex-shrink-0 w-5 h-5 rounded-sm border border-[#c48f8f] flex items-center justify-center" aria-hidden="true"></span>
+            <span class="text-[#141313]">{item}</span>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <!-- Travel Experiences -->
+    <section>
+      <h2 class="font-serif font-bold text-[#1f1d1d] text-[1.75rem] mb-6 mt-0 pb-3 border-b border-gray-100">
+        Travel Experiences
+      </h2>
+      <ul class="list-none m-0 p-0 space-y-3">
+        {travelExperiences.done.map((item) => (
+          <li class="flex items-start gap-3 font-sans text-[16px] leading-[1.6]">
+            <span class="mt-0.5 flex-shrink-0 w-5 h-5 rounded-sm bg-[#b72e09] border-[#b72e09] border flex items-center justify-center text-[11px] text-white" aria-hidden="true">✓</span>
+            <span class="line-through text-[#999]">{item}</span>
+          </li>
+        ))}
+        {travelExperiences.pending.map((item) => (
+          <li class="flex items-start gap-3 font-sans text-[16px] leading-[1.6]">
+            <span class="mt-0.5 flex-shrink-0 w-5 h-5 rounded-sm border border-[#c48f8f] flex items-center justify-center" aria-hidden="true"></span>
+            <span class="text-[#141313]">{item}</span>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <!-- Countries Visited -->
+    <section>
+      <h2 class="font-serif font-bold text-[#1f1d1d] text-[1.75rem] mb-8 mt-0 pb-3 border-b border-gray-100">
+        Countries Visited
+      </h2>
+
+      <!-- Gauge + map layout -->
+      <div class="flex flex-col md:flex-row items-center gap-10 mb-8">
+
+        <!-- Gauge -->
+        <div class="flex-shrink-0 flex flex-col items-center">
+          <svg viewBox="0 0 200 115" class="w-56" aria-label={`${countriesVisited.length} of 195 countries visited`}>
+            <!-- Track -->
+            <path d="M 20 100 A 80 80 0 0 1 180 100"
+              fill="none" stroke="#ede7df" stroke-width="14" stroke-linecap="round"/>
+            <!-- Progress: 42/195 = 21.54% → 38.77° into the 180° arc -->
+            <path d="M 20 100 A 80 80 0 0 1 37.57 50"
+              fill="none" stroke="#b72e09" stroke-width="14" stroke-linecap="round"/>
+            <!-- Dot at progress end -->
+            <circle cx="37.57" cy="50" r="6" fill="#b72e09"/>
+            <!-- Count -->
+            <text x="100" y="80"
+              text-anchor="middle"
+              font-family="Inria Serif, Georgia, serif"
+              font-size="44" font-weight="700" fill="#1f1d1d">{countriesVisited.length}</text>
+            <text x="100" y="98"
+              text-anchor="middle"
+              font-family="Cabin, sans-serif"
+              font-size="11" fill="#999">of 195 countries</text>
+            <!-- Scale labels -->
+            <text x="16" y="112" text-anchor="middle" font-family="Cabin, sans-serif" font-size="9" fill="#ccc">0</text>
+            <text x="184" y="112" text-anchor="middle" font-family="Cabin, sans-serif" font-size="9" fill="#ccc">195</text>
+          </svg>
+          <p class="font-sans text-[13px] text-[#aaa] mt-1 text-center">
+            {Math.round((countriesVisited.length / 195) * 100)}% of the world
+          </p>
+        </div>
+
+        <!-- Map -->
+        <div class="flex-1 w-full min-w-0">
+          <div id="world-map" style="height: 320px;" class="rounded-sm overflow-hidden"></div>
+        </div>
+
+      </div>
+
+      <!-- Country tags (collapsible) -->
+      <details class="mt-4">
+        <summary class="font-sans text-[14px] text-[#b72e09] cursor-pointer list-none hover:opacity-75 transition-opacity">
+          View all {countriesVisited.length} countries ↓
+        </summary>
+        <div class="flex flex-wrap gap-2 mt-4">
+          {countriesVisited.map((country) => (
+            <span class="font-sans text-[13px] bg-[#f5f0eb] text-[#2e2b2b] px-3 py-1 rounded-sm">
+              {country}
+            </span>
+          ))}
+        </div>
+      </details>
+    </section>
+
+  </div>
+
+  <!-- World map script -->
+  <script>
+    import JsVectorMap from 'jsvectormap';
+    import 'jsvectormap/dist/maps/world.js';
+    import 'jsvectormap/dist/jsvectormap.min.css';
+
+    const visited = [
+      'TW','US','FR','BE','GB','IE','AT','IT','DE',
+      'CM','CA','TN','ES','MC','HN','CW','CN','PH',
+      'HK','ET','KR','GR','HU','TH','EC','IN','VN',
+      'KH','MX','SG','MM','MN','RU','UA','PL','LU',
+      'AR','UY','CL','HT','JM','CH',
+    ];
+
+    new JsVectorMap({
+      selector: '#world-map',
+      map: 'world',
+      backgroundColor: '#faf7f3',
+      regionStyle: {
+        initial: {
+          fill: '#e2dbd3',
+          stroke: '#faf7f3',
+          strokeWidth: 0.5,
+        },
+        hover: {
+          fillOpacity: 0.75,
+          cursor: 'default',
+        },
+        selected: {
+          fill: '#b72e09',
+        },
+        selectedHover: {
+          fill: '#9a2507',
+        },
+      },
+      selectedRegions: visited,
+      zoomButtons: false,
+      zoomOnScroll: false,
+      draggable: false,
+    });
+  </script>
+
+  <!-- Related posts if any -->
+  {bucketListPosts.length > 0 && (
+    <section class="max-w-3xl mx-auto mt-16">
+      <h2 class="font-serif font-bold text-[#1f1d1d] text-[1.75rem] mb-8 mt-0">
+        Related Posts
+      </h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {bucketListPosts.map((post) => (
+          <PostCard
+            title={post.data.title}
+            date={post.data.date.toISOString().split('T')[0]}
+            category={post.data.category}
+            excerpt={post.data.excerpt}
+            slug={post.slug}
+            heroImage={post.data.heroImage}
+            heroImageAlt={post.data.heroImageAlt}
+            featured={post.data.featured}
+          />
+        ))}
+      </div>
+    </section>
+  )}
+
+</BaseLayout>

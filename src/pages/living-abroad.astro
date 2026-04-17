@@ -1,0 +1,53 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PostCard from '../components/PostCard.astro';
+
+const allPosts = await getCollection('blog');
+const livingAbroadPosts = allPosts
+  .filter((p) => p.data.category === 'Living Abroad')
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+---
+
+<BaseLayout
+  title="Living Abroad"
+  description="Six years in Shanghai. A year and a half in Saigon. Now Taichung. What nobody tells you about actually living somewhere versus visiting it."
+  currentPath="/living-abroad"
+>
+
+  <div class="max-w-3xl mx-auto mb-14">
+    <h1 class="font-serif font-bold text-[#1f1d1d] text-[2.25rem] md:text-[3rem] leading-[1.15] mb-4 mt-0">
+      Living Abroad
+    </h1>
+    <p class="font-sans text-[18px] text-[#3a3636] leading-[1.6] m-0">
+      Six years in Shanghai. A year and a half in Saigon. Now based in Taichung, Taiwan.
+      These posts are about actually living somewhere — navigating bureaucracy, raising kids
+      across cultures, and figuring out which city finally feels like home.
+    </p>
+  </div>
+
+  {livingAbroadPosts.length > 0 ? (
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      {livingAbroadPosts.map((post) => (
+        <PostCard
+          title={post.data.title}
+          date={post.data.date.toISOString().split('T')[0]}
+          category={post.data.category}
+          excerpt={post.data.excerpt}
+          slug={post.slug}
+          heroImage={post.data.heroImage}
+          heroImageAlt={post.data.heroImageAlt}
+          featured={post.data.featured}
+        />
+      ))}
+    </div>
+  ) : (
+    <div class="bg-[#f5f0eb] rounded-sm px-8 py-12 text-center max-w-xl mx-auto">
+      <p class="font-sans text-[17px] text-[#555] leading-[1.6] m-0">
+        Posts are on their way. Check back soon — or start with the
+        <a href="/" class="text-[#b72e09]">home page</a>.
+      </p>
+    </div>
+  )}
+
+</BaseLayout>

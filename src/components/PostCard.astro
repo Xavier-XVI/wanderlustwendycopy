@@ -1,0 +1,102 @@
+---
+// PostCard.astro — Blog post preview card
+// Used in grids on homepage and category pages
+
+interface Props {
+  title: string;
+  date: string;               // ISO date string e.g. "2024-11-01"
+  category: string;
+  excerpt: string;
+  slug: string;
+  heroImage?: string;         // optional: path relative to /public, e.g. "/images/post-slug--hero.jpg"
+  heroImageAlt?: string;
+  featured?: boolean;
+}
+
+const {
+  title,
+  date,
+  category,
+  excerpt,
+  slug,
+  heroImage,
+  heroImageAlt = '',
+  featured = false,
+} = Astro.props;
+
+// Format date for display: "November 1, 2024"
+const formattedDate = new Date(date + 'T00:00:00').toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+
+const postUrl = `/blog/${slug}`;
+---
+
+<article
+  class:list={[
+    'bg-[#f5f0eb] rounded-sm overflow-hidden transition-shadow duration-200 hover:shadow-md flex flex-col',
+    featured ? 'md:col-span-2' : '',
+  ]}
+>
+  <!-- Hero image (optional) -->
+  {heroImage && (
+    <a href={postUrl} class="block no-underline" tabindex="-1" aria-hidden="true">
+      <div class="w-full overflow-hidden aspect-[16/9]">
+        <img
+          src={heroImage}
+          alt={heroImageAlt}
+          class="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+          loading="lazy"
+          decoding="async"
+        />
+      </div>
+    </a>
+  )}
+
+  <!-- Card body -->
+  <div class="flex flex-col flex-1 p-6">
+
+    <!-- Category badge + date -->
+    <div class="flex items-center gap-3 mb-3">
+      <span class="font-sans text-[13px] font-semibold uppercase tracking-wider text-[#b72e09] bg-white px-2 py-0.5 rounded-sm">
+        {category}
+      </span>
+      <time
+        datetime={date}
+        class="font-sans text-[14px] text-[#555]"
+      >
+        {formattedDate}
+      </time>
+    </div>
+
+    <!-- Title -->
+    <h2 class:list={[
+      'font-serif font-bold text-[#1f1d1d] leading-snug mb-3 mt-0',
+      featured ? 'text-[2rem]' : 'text-[1.375rem]',
+    ]}>
+      <a
+        href={postUrl}
+        class="no-underline text-[#1f1d1d] hover:text-[#b72e09] transition-colors duration-150"
+      >
+        {title}
+      </a>
+    </h2>
+
+    <!-- Excerpt -->
+    <p class="font-sans text-[17px] leading-relaxed text-[#3a3636] mb-5 flex-1">
+      {excerpt}
+    </p>
+
+    <!-- Read more link -->
+    <a
+      href={postUrl}
+      class="inline-block self-start font-sans text-[14px] font-semibold text-[#b72e09] no-underline border-b border-[#b72e09] pb-0.5 hover:opacity-75 transition-opacity duration-150"
+      aria-label={`Read more: ${title}`}
+    >
+      Read more &rarr;
+    </a>
+
+  </div>
+</article>

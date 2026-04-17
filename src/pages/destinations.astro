@@ -1,0 +1,52 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PostCard from '../components/PostCard.astro';
+
+const allPosts = await getCollection('blog');
+const travelPosts = allPosts
+  .filter((p) => p.data.category === 'Travelogue')
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+---
+
+<BaseLayout
+  title="Destinations"
+  description="Field notes from 40+ countries — the real itineraries, honest costs, and moments nobody puts on Instagram."
+  currentPath="/destinations"
+>
+
+  <div class="max-w-3xl mx-auto mb-14">
+    <h1 class="font-serif font-bold text-[#1f1d1d] text-[2.25rem] md:text-[3rem] leading-[1.15] mb-4 mt-0">
+      Destinations
+    </h1>
+    <p class="font-sans text-[18px] text-[#3a3636] leading-[1.6] m-0">
+      Forty-something countries and counting. These are the honest versions — the steep trails,
+      wrong turns, and conversations that actually changed something.
+    </p>
+  </div>
+
+  {travelPosts.length > 0 ? (
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      {travelPosts.map((post) => (
+        <PostCard
+          title={post.data.title}
+          date={post.data.date.toISOString().split('T')[0]}
+          category={post.data.category}
+          excerpt={post.data.excerpt}
+          slug={post.slug}
+          heroImage={post.data.heroImage}
+          heroImageAlt={post.data.heroImageAlt}
+          featured={post.data.featured}
+        />
+      ))}
+    </div>
+  ) : (
+    <div class="bg-[#f5f0eb] rounded-sm px-8 py-12 text-center max-w-xl mx-auto">
+      <p class="font-sans text-[17px] text-[#555] leading-[1.6] m-0">
+        Posts are on their way. Check back soon — or start with the
+        <a href="/" class="text-[#b72e09]">home page</a>.
+      </p>
+    </div>
+  )}
+
+</BaseLayout>
